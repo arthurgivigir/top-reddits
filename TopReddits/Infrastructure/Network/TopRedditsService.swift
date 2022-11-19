@@ -7,17 +7,6 @@
 
 import Foundation
 
-enum TopRedditsEndpoints: String {
-    case topReddits = "https://www.reddit.com/top.json"
-    
-    var url: URL? {
-        switch self {
-        case .topReddits:
-            return URL(string: rawValue)
-        }
-    }
-}
-
 protocol TopRedditsService {
     func fetchTopReddits(completion: @escaping((Result<TopRedditsModel, NetworkError>) -> Void))
 }

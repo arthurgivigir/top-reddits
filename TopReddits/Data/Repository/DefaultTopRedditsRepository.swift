@@ -7,6 +7,17 @@
 
 import Foundation
 
-final class DefaultTopRedditsRepository {
-//    private let
+final class DefaultTopRedditsRepository: TopRedditsRepository {
+    
+    private let topRedditsService: TopRedditsService
+    
+    init(topRedditsService: TopRedditsService) {
+        self.topRedditsService = topRedditsService
+    }
+    
+    func fecthTopReddits(completion: @escaping (Result<TopRedditsModel, NetworkError>) -> Void) {
+        topRedditsService.fetchTopReddits { result in
+            completion(result)
+        }
+    }
 }
