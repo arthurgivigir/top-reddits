@@ -9,6 +9,7 @@ import Foundation
 
 protocol ListTopRedditsViewModelInput {
     func viewDidLoad()
+    func pullToRefresh()
 }
 
 protocol ListTopRedditsViewModelOutput {
@@ -18,23 +19,28 @@ protocol ListTopRedditsViewModelOutput {
 protocol ListTopRedditsViewModel: ListTopRedditsViewModelInput, ListTopRedditsViewModelOutput {}
 
 final class DefaultListTopRedditsViewModel: ListTopRedditsViewModel {
-    let topRedditsRepository: TopRedditsRepository
+    let topRedditsUseCase: TopRedditsUseCase
     let viewControllerDelegate: ListTopRedditsViewControllerDelegate
     var datasource: [RedditMessage]?
 
     init(viewControllerDelegate: ListTopRedditsViewControllerDelegate,
-         topRedditsRepository: TopRedditsRepository = DefaultTopRedditsRepository()) {
+         topRedditsUseCase: TopRedditsUseCase = DefaultTopRedditsUseCase()) {
         self.viewControllerDelegate = viewControllerDelegate
-        self.topRedditsRepository = topRedditsRepository
+        self.topRedditsUseCase = topRedditsUseCase
     }
     
     func viewDidLoad() {
-        fetchTopReddits()
+        reloadTableView()
+    }
+    
+    func pullToRefresh() {
+        reloadTableView()
     }
 }
-extension DefaultListTopRedditsViewModel {
-    private func fetchTopReddits() {
-        topRedditsRepository.fecthTopReddits { [weak self] result in
+
+private extension DefaultListTopRedditsViewModel {
+    func reloadTableView() {
+        fetchTopReddits(reloadData: true) { [weak self] result in
             switch result {
             case .success(let items):
                 self?.datasource = items
@@ -42,6 +48,12 @@ extension DefaultListTopRedditsViewModel {
             case .failure(let failure):
                 print(failure)
             }
+        }
+    }
+    
+    func fetchTopReddits(reloadData: Bool, completion: @escaping (Result<[RedditMessage], NetworkError>) -> Void) {
+        topRedditsUseCase.fecthTopReddits(reloadData: reloadData) { result in
+            completion(result)
         }
     }
 }

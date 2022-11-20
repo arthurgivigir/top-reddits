@@ -24,4 +24,10 @@ final class DefaultTopRedditsRepository: TopRedditsRepository {
             }
         }
     }
+    
+    func fetchTopReddits(_ afterPage: String?, completion: @escaping ((Result<TopRedditsModel, NetworkError>) -> Void)) {
+        topRedditsService.fetchTopReddits(afterPage) { result in
+            completion(result)
+        }
+    }
 }

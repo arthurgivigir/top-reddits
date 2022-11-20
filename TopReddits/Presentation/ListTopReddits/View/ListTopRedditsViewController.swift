@@ -10,8 +10,9 @@ import UIKit
 
 final class ListTopRedditsViewController: UIViewController {
     
-    var viewModel: ListTopRedditsViewModel?
-    var datasource: [RedditMessage]?
+    private var viewModel: ListTopRedditsViewModel?
+    private var datasource: [RedditMessage]?
+    private let refreshControl = UIRefreshControl()
     
     lazy var messagesTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -20,6 +21,7 @@ final class ListTopRedditsViewController: UIViewController {
         tableView.backgroundColor = .backgroundPrimary
         tableView.registerCell(type: MessageTableViewCell.self)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.refreshControl = refreshControl
         return tableView
     }()
     
@@ -51,6 +53,8 @@ final class ListTopRedditsViewController: UIViewController {
 // MARK: - Private methods
 private extension ListTopRedditsViewController {
     func configureViews() {
+        setupPullToRefresh()
+        
         view.backgroundColor = .backgroundPrimary
         view.addSubview(messagesTableView)
     }
@@ -65,6 +69,17 @@ private extension ListTopRedditsViewController {
             messagesTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Space.minimum.rawValue),
             messagesTableView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1)
         ])
+    }
+    
+    func setupPullToRefresh() {
+        refreshControl.addTarget(self, action: #selector(pullToRefresh(_:)), for: .valueChanged)
+        refreshControl.tintColor = .fontColorPrimary
+        refreshControl.attributedTitle = NSAttributedString(string: "Carregando...", attributes: nil)
+    }
+    
+    @objc
+    func pullToRefresh(_ sender: Any) {
+        viewModel?.pullToRefresh()
     }
 }
 
@@ -99,8 +114,11 @@ extension ListTopRedditsViewController: UITableViewDataSource {
 extension ListTopRedditsViewController: ListTopRedditsViewControllerDelegate {
     func reloadTableView() {
         DispatchQueue.main.async { [weak self] in
-            self?.datasource = self?.viewModel?.datasource
-            self?.messagesTableView.reloadData()
+            guard let self = self else { return }
+            
+            self.datasource = self.viewModel?.datasource
+            self.messagesTableView.reloadData()
+            self.refreshControl.endRefreshing()
         }
     }
 }
