@@ -14,9 +14,10 @@ final class ListTopRedditsViewController: UIViewController {
     var datasource: [RedditMessage]?
     
     lazy var messagesTableView: UITableView = {
-        let tableView = UITableView(frame: .zero)
+        let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.backgroundColor = .backgroundPrimary
         tableView.registerCell(type: MessageTableViewCell.self)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -50,7 +51,7 @@ final class ListTopRedditsViewController: UIViewController {
 // MARK: - Private methods
 private extension ListTopRedditsViewController {
     func configureViews() {
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundPrimary
         view.addSubview(messagesTableView)
     }
     
@@ -60,8 +61,8 @@ private extension ListTopRedditsViewController {
     
     func configureConstraints() {
         NSLayoutConstraint.activate([
-            messagesTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-            messagesTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            messagesTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: Space.minimum.rawValue),
+            messagesTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Space.minimum.rawValue),
             messagesTableView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1)
         ])
     }
