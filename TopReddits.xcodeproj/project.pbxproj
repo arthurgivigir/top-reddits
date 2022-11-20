@@ -784,6 +784,7 @@
 				DEVELOPMENT_TEAM = H7EDV5524K;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TopReddits/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Top Reddits";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -811,6 +812,7 @@
 				DEVELOPMENT_TEAM = H7EDV5524K;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TopReddits/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Top Reddits";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
