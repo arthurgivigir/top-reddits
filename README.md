@@ -21,6 +21,12 @@ The goal is to implement a basic Top Reddits reader, with the features mentioned
 Reddit API:
 https://www.reddit.com/top.json
 
+### Important Informations:
+- XCode 14.1
+- iOS 16.1.1
+- MacOS Ventura 13.0
+- Architecture: MVVM
+
 ### What I've done?
 - I've implemented all the **required features** and two **nice to have**. 
 - I've implemented some few testes to show how can I test a Mocked API and the transfomation between a model and an entity. The best scenario is implement all functionalities, but I was afraid to not delivery at time this challenge.
