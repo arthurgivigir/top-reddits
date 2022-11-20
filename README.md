@@ -22,8 +22,9 @@ Reddit API:
 https://www.reddit.com/top.json
 
 ### What I've done?
-- I've implemented a all the **required features** and two **nice to have**. 
-- I've implemented some few testes to show how can I test a Mocked API and the transfomation between a model and an entity. The best scenario is implement in all functionalities, but I was afraid to not delivery at time this challenge.
+- I've implemented all the **required features** and two **nice to have**. 
+- I've implemented some few testes to show how can I test a Mocked API and the transfomation between a model and an entity. The best scenario is implement all functionalities, but I was afraid to not delivery at time this challenge.
     - This test helped me to implement the service and to map the most needed elements from json.
 - The images have been loaded and saved inside a local cache. I dind't implement a loading at the images, but I could complete the basic scenario.
-- The details page can show a image and a link, if the user clicks on it, Safary will be opened loading the content.
+- The details page can show a image and a link, if the user clicks on it, Safari will be opened loading the content.
+- The details page can save the image if the user clicks on save button. This coverages only the success scenario.
