@@ -31,8 +31,8 @@ struct RedditMessageDataModel: Decodable {
         case postHint
         case title
         case thumbnail
-        case thumbnailHeight
-        case thumbnailWidth
+        case thumbnailHeight = "thumbnail_height"
+        case thumbnailWidth = "thumbnail_width"
         case text = "selftext"
         case created = "created_utc"
         case subredditName = "subreddit_name_prefixed"

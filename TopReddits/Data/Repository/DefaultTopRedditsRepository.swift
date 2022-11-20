@@ -8,16 +8,20 @@
 import Foundation
 
 final class DefaultTopRedditsRepository: TopRedditsRepository {
-    
     private let topRedditsService: TopRedditsService
     
-    init(topRedditsService: TopRedditsService) {
+    init(topRedditsService: TopRedditsService = DefaultTopRedditsService()) {
         self.topRedditsService = topRedditsService
     }
     
-    func fecthTopReddits(completion: @escaping (Result<TopRedditsModel, NetworkError>) -> Void) {
+    func fecthTopReddits(completion: @escaping (Result<[RedditMessage], NetworkError>) -> Void) {
         topRedditsService.fetchTopReddits { result in
-            completion(result)
+            switch result {
+            case .success(let topReddits):
+                completion(.success(topReddits.toEntity))
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
     }
 }

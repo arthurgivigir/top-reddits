@@ -11,7 +11,7 @@ import XCTest
 final class TopRedditsServiceTests: XCTestCase {
     
     let networkSession = NetworkSessionMock()
-    let jsonFromTopReddits = DataToJson.jsonFrom(.topReddits)
+    let dataFromTopReddits = JsonHelper.dataFrom(.topReddits)
     var topRedditsRepository: TopRedditsRepository?
     
     override func setUpWithError() throws {
@@ -21,17 +21,21 @@ final class TopRedditsServiceTests: XCTestCase {
     }
 
     func test_fecthTopReddits_success() throws {
-        networkSession.data = jsonFromTopReddits
+        networkSession.data = dataFromTopReddits
         networkSession.error = nil
+        
+        let expectationFetch = expectation(description: "⚠️ Testing fecthTopReddits.....")
         
         topRedditsRepository?.fecthTopReddits { result in
             switch result {
-            case .success(let success):
-                print(success)
-            case .failure(let failure):
-                print(failure)
+            case .success(let topRedditsModel):
+                XCTAssertNotNil(topRedditsModel, "✅ fecthTopReddits")
+            case .failure(let error):
+                XCTFail("⛔️ fecthTopReddits: \(error)")
             }
+            expectationFetch.fulfill()
         }
+        
+        wait(for: [expectationFetch], timeout: 5.0)
     }
-
 }

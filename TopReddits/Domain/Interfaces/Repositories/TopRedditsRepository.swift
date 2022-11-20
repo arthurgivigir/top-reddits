@@ -8,5 +8,5 @@
 import Foundation
 
 protocol TopRedditsRepository {
-    func fecthTopReddits(completion: @escaping (Result<TopRedditsModel, NetworkError>) -> Void)
+    func fecthTopReddits(completion: @escaping (Result<[RedditMessage], NetworkError>) -> Void)
 }
