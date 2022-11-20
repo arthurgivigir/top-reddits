@@ -12,6 +12,7 @@ protocol ListTopRedditsViewControllerDelegate {
     func reloadTableView()
     func startLoading()
     func stopLoading()
+    func showErrorMessage(_ message: String)
 }
 
 final class ListTopRedditsViewController: UIViewController {
@@ -160,6 +161,19 @@ extension ListTopRedditsViewController: ListTopRedditsViewControllerDelegate {
             
             self.messagesTableView.reloadData()
             self.refreshControl.endRefreshing()
+        }
+    }
+    
+    func showErrorMessage(_ message: String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            
+            self.stopLoading()
+            self.refreshControl.endRefreshing()
+            self.present(alert, animated: true, completion: nil)
         }
     }
 }

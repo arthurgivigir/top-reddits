@@ -54,45 +54,43 @@ private extension DefaultListTopRedditsViewModel {
     func reloadTableView() {
         viewControllerDelegate.startLoading()
         
-        fetchTopReddits(reloadData: true) { [weak self] result in
-            switch result {
-            case .success(let items):
-                self?.datasource = items
-                self?.viewControllerDelegate.reloadTableView()
-                self?.viewControllerDelegate.stopLoading()
-            case .failure(let failure):
-                print(failure)
-            }
+        fetchTopReddits(reloadData: true) { [weak self] items in
+            self?.datasource = items
+            self?.viewControllerDelegate.stopLoading()
         }
     }
     
     func loadFromRefresh() {
-        fetchTopReddits(reloadData: true) { [weak self] result in
-            switch result {
-            case .success(let items):
-                self?.datasource = items
-                self?.viewControllerDelegate.reloadTableView()
-            case .failure(let failure):
-                print(failure)
-            }
+        fetchTopReddits(reloadData: true) { [weak self] items in
+            self?.datasource = items
         }
     }
     
     func loadMoreData() {
-        fetchTopReddits(reloadData: false) { [weak self] result in
+        fetchTopReddits(reloadData: false) { [weak self] items in
+            self?.datasource?.append(contentsOf: items)
+        }
+    }
+    
+    func fetchTopReddits(reloadData: Bool, completion: @escaping ([RedditMessage]) -> Void) {
+        topRedditsUseCase.fecthTopReddits(reloadData: reloadData) { [weak self]  result in
             switch result {
-            case .success(let items):
-                self?.datasource?.append(contentsOf: items)
+            case .success(let entities):
                 self?.viewControllerDelegate.reloadTableView()
-            case .failure(let failure):
-                print(failure)
+                completion(entities)
+                
+            case .failure(let error):
+                self?.handleError(error)
             }
         }
     }
     
-    func fetchTopReddits(reloadData: Bool, completion: @escaping (Result<[RedditMessage], NetworkError>) -> Void) {
-        topRedditsUseCase.fecthTopReddits(reloadData: reloadData) { result in
-            completion(result)
+    func handleError(_ error: NetworkError) {
+        switch error {
+        case .notConnected:
+            viewControllerDelegate.showErrorMessage("Ohhh no... It's look like you're without internet!")
+        default:
+            viewControllerDelegate.showErrorMessage("Ohhh no... Something really BAD happened")
         }
     }
 }
