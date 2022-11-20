@@ -8,8 +8,13 @@
 import Foundation
 import UIKit
 
+
+protocol RedditDetailsViewControllerDelegate {
+    func showMessage(_ type: String, message: String)
+}
+
 final class RedditDetailsViewController: UIViewController {
-    private let viewModel: RedditDetailsViewModel
+    private var viewModel: RedditDetailsViewModel
     
     private lazy var contentStackView: UIStackView = buildStackView(spacing: .medium)
     private lazy var headerStackView = buildStackView(spacing: .minimum)
@@ -92,10 +97,14 @@ final class RedditDetailsViewController: UIViewController {
 private extension RedditDetailsViewController {
     func configureNavigationController() {
         navigationItem.title = "Details"
+        
+        let rightBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(tapToSave))
+        navigationItem.rightBarButtonItem = rightBarButton
     }
     
     func buildContent() {
         view.backgroundColor = .backgroundPrimary
+        viewModel.viewControllerDelegate = self
         
         titleLabel.text = viewModel.message.title
         authorLabel.text = viewModel.message.author
@@ -137,6 +146,12 @@ private extension RedditDetailsViewController {
         viewModel.openLink()
     }
     
+    @objc
+    func tapToSave(_ sender: AnyObject?) {
+        guard let image = contentImageView.image else { return }
+        viewModel.writeToPhotoAlbum(image: image)
+    }
+    
     func configureConstraints() {
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -166,5 +181,13 @@ private extension RedditDetailsViewController {
                 contentImageView.heightAnchor.constraint(equalToConstant: 300),
             ])
         }
+    }
+}
+
+extension RedditDetailsViewController: RedditDetailsViewControllerDelegate {
+    func showMessage(_ type: String, message: String) {
+        let alert = UIAlertController(title: type, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true, completion: nil)
     }
 }

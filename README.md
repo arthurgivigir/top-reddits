@@ -1,1 +1,1 @@
-# top-reddits
+# Top Reddits
