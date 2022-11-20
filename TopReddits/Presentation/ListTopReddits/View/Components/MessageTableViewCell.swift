@@ -11,15 +11,8 @@ final class MessageTableViewCell: UITableViewCell {
     
     private var message: RedditMessage?
     
-    private lazy var contentStackView: UIStackView = {
-        let stackView = UIStackView(frame: .zero)
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.alignment = .leading
-        stackView.spacing = 8
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
+    private lazy var contentStackView: UIStackView = buildStackView(spacing: .small)
+    private lazy var headerStackView = buildStackView(spacing: .minimum)
     
     private lazy var contentImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
@@ -29,8 +22,8 @@ final class MessageTableViewCell: UITableViewCell {
     
     private lazy var authorLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .blue
-        label.font = .systemFont(ofSize: 12)
+        label.textColor = .fontColorSeconday
+        label.font = .appFont(.subtitle, weight: .thin)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         return label
@@ -38,8 +31,8 @@ final class MessageTableViewCell: UITableViewCell {
     
     private lazy var subredditLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .blue
-        label.font = .systemFont(ofSize: 12)
+        label.textColor = .fontColorSeconday
+        label.font = .appFont(.subtitle, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         return label
@@ -47,8 +40,8 @@ final class MessageTableViewCell: UITableViewCell {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .blue
-        label.font = .systemFont(ofSize: 12)
+        label.textColor = .fontColorPrimary
+        label.font = .appFont(.title, weight: .heavy)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         return label
@@ -68,6 +61,8 @@ private extension MessageTableViewCell {
     }
 
     func buildContent() {
+        backgroundColor = .backgroundSeconday
+        
         titleLabel.text = message?.title
         authorLabel.text = message?.author
         subredditLabel.text = message?.subredditName
@@ -75,9 +70,13 @@ private extension MessageTableViewCell {
     }
     
     func setupContent() {
-        contentStackView.addArrangedSubviews(
-            authorLabel,
+        headerStackView.addArrangedSubviews(
             subredditLabel,
+            authorLabel
+        )
+        
+        contentStackView.addArrangedSubviews(
+            headerStackView,
             titleLabel,
             contentImageView
         )
@@ -88,10 +87,10 @@ private extension MessageTableViewCell {
         let layoutMarginsGuide = contentView.layoutMarginsGuide
         
         NSLayoutConstraint.activate([
-            contentStackView.leftAnchor.constraint(equalTo: layoutMarginsGuide.leftAnchor, constant: 8),
-            contentStackView.rightAnchor.constraint(equalTo: layoutMarginsGuide.rightAnchor, constant: 8),
-            contentStackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor, constant: 0),
-            contentStackView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor, constant: 0),
+            contentStackView.leftAnchor.constraint(equalTo: layoutMarginsGuide.leftAnchor, constant: Space.small.rawValue),
+            contentStackView.rightAnchor.constraint(equalTo: layoutMarginsGuide.rightAnchor, constant: Space.small.rawValue),
+            contentStackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor, constant: Space.minimum.rawValue),
+            contentStackView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor, constant: Space.minimum.rawValue),
         ])
         
         if let width = message?.thumbnailWidth, let height = message?.thumbnailHeight {

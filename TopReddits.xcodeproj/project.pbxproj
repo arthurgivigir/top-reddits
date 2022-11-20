@@ -27,6 +27,9 @@
 		5640C736292A927200FEE082 /* UIStackView+ArrangedSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5640C735292A927200FEE082 /* UIStackView+ArrangedSubViews.swift */; };
 		5640C739292A92C100FEE082 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5640C738292A92C100FEE082 /* MessageTableViewCell.swift */; };
 		5640C73B292A92E300FEE082 /* UITableView+RegisterCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5640C73A292A92E300FEE082 /* UITableView+RegisterCells.swift */; };
+		5640C73F292A97DF00FEE082 /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5640C73E292A97DF00FEE082 /* Space.swift */; };
+		5640C741292A98C400FEE082 /* UIFont+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5640C740292A98C400FEE082 /* UIFont+System.swift */; };
+		5640C743292AA17300FEE082 /* UIColor+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5640C742292AA17300FEE082 /* UIColor+System.swift */; };
 		565B86D3291BBFF900F37A21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565B86D2291BBFF900F37A21 /* AppDelegate.swift */; };
 		565B86D5291BBFF900F37A21 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565B86D4291BBFF900F37A21 /* SceneDelegate.swift */; };
 		565B86DC291BBFFA00F37A21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 565B86DB291BBFFA00F37A21 /* Assets.xcassets */; };
@@ -76,6 +79,9 @@
 		5640C735292A927200FEE082 /* UIStackView+ArrangedSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+ArrangedSubViews.swift"; sourceTree = "<group>"; };
 		5640C738292A92C100FEE082 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		5640C73A292A92E300FEE082 /* UITableView+RegisterCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+RegisterCells.swift"; sourceTree = "<group>"; };
+		5640C73E292A97DF00FEE082 /* Space.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Space.swift; sourceTree = "<group>"; };
+		5640C740292A98C400FEE082 /* UIFont+System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+System.swift"; sourceTree = "<group>"; };
+		5640C742292AA17300FEE082 /* UIColor+System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+System.swift"; sourceTree = "<group>"; };
 		565B86CF291BBFF900F37A21 /* TopReddits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TopReddits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		565B86D2291BBFF900F37A21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		565B86D4291BBFF900F37A21 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -263,9 +269,8 @@
 		5640C732292A856000FEE082 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				5640C733292A858E00FEE082 /* UIImageView+ImageCache.swift */,
-				5640C735292A927200FEE082 /* UIStackView+ArrangedSubViews.swift */,
-				5640C73A292A92E300FEE082 /* UITableView+RegisterCells.swift */,
+				5640C73D292A97D200FEE082 /* Enums */,
+				5640C73C292A97C900FEE082 /* Extensions */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -276,6 +281,26 @@
 				5640C738292A92C100FEE082 /* MessageTableViewCell.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		5640C73C292A97C900FEE082 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5640C733292A858E00FEE082 /* UIImageView+ImageCache.swift */,
+				5640C735292A927200FEE082 /* UIStackView+ArrangedSubViews.swift */,
+				5640C73A292A92E300FEE082 /* UITableView+RegisterCells.swift */,
+				5640C740292A98C400FEE082 /* UIFont+System.swift */,
+				5640C742292AA17300FEE082 /* UIColor+System.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5640C73D292A97D200FEE082 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				5640C73E292A97DF00FEE082 /* Space.swift */,
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 		565B86C6291BBFF900F37A21 = {
@@ -541,9 +566,11 @@
 				5640C7042928E89C00FEE082 /* NetworkError.swift in Sources */,
 				5640C731292A550000FEE082 /* ListTopRedditsViewModel.swift in Sources */,
 				5640C734292A858E00FEE082 /* UIImageView+ImageCache.swift in Sources */,
+				5640C743292AA17300FEE082 /* UIColor+System.swift in Sources */,
 				565B86D3291BBFF900F37A21 /* AppDelegate.swift in Sources */,
 				5640C7092928F40900FEE082 /* TopRedditsModel.swift in Sources */,
 				5640C72B29297F9000FEE082 /* RedditMessage.swift in Sources */,
+				5640C73F292A97DF00FEE082 /* Space.swift in Sources */,
 				5640C716292963AF00FEE082 /* TopRedditsEndpoints.swift in Sources */,
 				5640C70F2928FFD200FEE082 /* TopRedditsRepository.swift in Sources */,
 				5640C739292A92C100FEE082 /* MessageTableViewCell.swift in Sources */,
@@ -551,6 +578,7 @@
 				5640C6FF2928E60800FEE082 /* NetworkSession.swift in Sources */,
 				565B86D5291BBFF900F37A21 /* SceneDelegate.swift in Sources */,
 				565B870D291BC89800F37A21 /* RedditDetailsViewController.swift in Sources */,
+				5640C741292A98C400FEE082 /* UIFont+System.swift in Sources */,
 				5640C736292A927200FEE082 /* UIStackView+ArrangedSubViews.swift in Sources */,
 				5640C72729297F0700FEE082 /* RedditMessageModel.swift in Sources */,
 			);
