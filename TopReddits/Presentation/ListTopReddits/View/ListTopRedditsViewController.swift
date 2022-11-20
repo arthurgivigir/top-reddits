@@ -11,7 +11,6 @@ import UIKit
 final class ListTopRedditsViewController: UIViewController {
     
     private var viewModel: ListTopRedditsViewModel?
-    private var datasource: [RedditMessage]?
     private let refreshControl = UIRefreshControl()
     
     lazy var messagesTableView: UITableView = {
@@ -93,20 +92,40 @@ extension ListTopRedditsViewController: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 extension ListTopRedditsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        1
+        viewModel?.sections ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        datasource?.count ?? 0
+        if section == MessagesSections.messages.rawValue {
+            return viewModel?.datasource?.count ?? 0
+        } else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let item = datasource?[indexPath.row],
-              let cell: MessageTableViewCell = tableView.dequeueCell(withType: MessageTableViewCell.self, for: indexPath)
-        else { return UITableViewCell(frame: .zero) }
+        if indexPath.section == MessagesSections.messages.rawValue {
+            guard let item = viewModel?.datasource?[indexPath.row],
+                  let cell: MessageTableViewCell = tableView.dequeueCell(withType: MessageTableViewCell.self, for: indexPath)
+            else { return UITableViewCell(frame: .zero) }
+            
+            cell.setup(with: item)
+            return cell
+            
+        } else {
+            let tableView = UITableViewCell(style: .value1, reuseIdentifier: "Loading cell")
+            tableView.textLabel?.text = "Loading..."
+            return tableView
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let section = MessagesSections(rawValue: indexPath.section),
+              let datasource = viewModel?.datasource, !datasource.isEmpty else { return }
         
-        cell.setup(with: item)
-        return cell
+        if section == .loading {
+            viewModel?.infiniteScroll()
+        }
     }
 }
 
@@ -116,7 +135,6 @@ extension ListTopRedditsViewController: ListTopRedditsViewControllerDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
-            self.datasource = self.viewModel?.datasource
             self.messagesTableView.reloadData()
             self.refreshControl.endRefreshing()
         }
