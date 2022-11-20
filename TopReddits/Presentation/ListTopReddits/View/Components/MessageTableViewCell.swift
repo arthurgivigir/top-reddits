@@ -88,9 +88,9 @@ private extension MessageTableViewCell {
         
         NSLayoutConstraint.activate([
             contentStackView.leftAnchor.constraint(equalTo: layoutMarginsGuide.leftAnchor, constant: Space.small.rawValue),
-            contentStackView.rightAnchor.constraint(equalTo: layoutMarginsGuide.rightAnchor, constant: Space.small.rawValue),
-            contentStackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor, constant: Space.minimum.rawValue),
-            contentStackView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor, constant: Space.minimum.rawValue),
+            contentStackView.rightAnchor.constraint(equalTo: layoutMarginsGuide.rightAnchor, constant: -Space.small.rawValue),
+            contentStackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor, constant: Space.small.rawValue),
+            contentStackView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor, constant: -Space.small.rawValue),
         ])
         
         if let width = message?.thumbnailWidth, let height = message?.thumbnailHeight {

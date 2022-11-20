@@ -29,6 +29,8 @@ final class ListTopRedditsViewController: UIViewController {
         tableView.registerCell(type: MessageTableViewCell.self)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.refreshControl = refreshControl
+        tableView.separatorColor = .backgroundPrimary
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         return tableView
     }()
     
@@ -51,8 +53,9 @@ final class ListTopRedditsViewController: UIViewController {
         viewModel?.viewDidLoad()
     }
     
-    @objc private func callRedditDetails() {
-        navigationController?.show(RedditDetailsViewController(), sender: self)
+    private func callRedditDetails(_ message: RedditMessage) {
+        let viewModel = DefaultRedditDetailsViewModel(message: message)
+        navigationController?.show(RedditDetailsViewController(viewModel: viewModel), sender: self)
     }
     
 }
@@ -134,6 +137,11 @@ extension ListTopRedditsViewController: UITableViewDataSource {
         if section == .loading {
             viewModel?.infiniteScroll()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let datasource = viewModel?.datasource else { return }
+        callRedditDetails(datasource[indexPath.row])
     }
 }
 

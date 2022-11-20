@@ -27,10 +27,12 @@ extension TopRedditsModel {
     var toEntity: [RedditMessage] {
         data.reddits.map {
             let message = $0.message
+            let postHint = PostHint.build(rawValue: message.postHint)
             return RedditMessage(
                 author: message.author,
-                postHint: message.postHint,
+                postHint: postHint,
                 title: message.title,
+                url: message.url,
                 thumbnail: message.thumbnail,
                 thumbnailHeight: message.thumbnailHeight,
                 thumbnailWidth: message.thumbnailWidth,
