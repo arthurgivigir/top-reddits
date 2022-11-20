@@ -30,7 +30,6 @@ final class TopRedditsModelTests: XCTestCase {
             XCTAssertEqual(entities[offset].thumbnailWidth, data.thumbnailWidth)
             XCTAssertEqual(entities[offset].thumbnailHeight, data.thumbnailHeight)
             XCTAssertEqual(entities[offset].thumbnail, data.thumbnail)
-            XCTAssertEqual(entities[offset].postHint, data.postHint)
             XCTAssertEqual(entities[offset].author, data.author)
         }
     }

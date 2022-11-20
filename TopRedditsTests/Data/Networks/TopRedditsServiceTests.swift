@@ -26,7 +26,7 @@ final class TopRedditsServiceTests: XCTestCase {
         
         let expectationFetch = expectation(description: "⚠️ Testing fecthTopReddits.....")
         
-        topRedditsRepository?.fecthTopReddits { result in
+        topRedditsRepository?.fetchTopReddits(nil) { result in
             switch result {
             case .success(let topRedditsModel):
                 XCTAssertNotNil(topRedditsModel, "✅ fecthTopReddits")
