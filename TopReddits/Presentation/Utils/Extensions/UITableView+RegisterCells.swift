@@ -27,7 +27,3 @@ extension UITableView {
         return dequeueReusableCell(withIdentifier: type.identifier, for: indexPath) as? T
     }
 }
-
-protocol ListTopRedditsViewControllerDelegate {
-    func reloadTableView()
-}

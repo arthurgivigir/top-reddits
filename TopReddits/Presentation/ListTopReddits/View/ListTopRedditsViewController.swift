@@ -8,10 +8,17 @@
 import Foundation
 import UIKit
 
+protocol ListTopRedditsViewControllerDelegate {
+    func reloadTableView()
+    func startLoading()
+    func stopLoading()
+}
+
 final class ListTopRedditsViewController: UIViewController {
     
     private var viewModel: ListTopRedditsViewModel?
-    private let refreshControl = UIRefreshControl()
+    private lazy var refreshControl = UIRefreshControl()
+    private lazy var loading = LoadingViewController()
     
     lazy var messagesTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -73,7 +80,7 @@ private extension ListTopRedditsViewController {
     func setupPullToRefresh() {
         refreshControl.addTarget(self, action: #selector(pullToRefresh(_:)), for: .valueChanged)
         refreshControl.tintColor = .fontColorPrimary
-        refreshControl.attributedTitle = NSAttributedString(string: "Carregando...", attributes: nil)
+        refreshControl.attributedTitle = NSAttributedString(string: "Loading...", attributes: nil)
     }
     
     @objc
@@ -131,6 +138,22 @@ extension ListTopRedditsViewController: UITableViewDataSource {
 
 // MARK: - ListTopRedditsViewControllerDelegate
 extension ListTopRedditsViewController: ListTopRedditsViewControllerDelegate {
+    func stopLoading() {
+        DispatchQueue.main.async { [weak self] in
+            self?.loading.dismiss(animated: true)
+        }
+    }
+    
+    func startLoading() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            self.loading.modalPresentationStyle = .overCurrentContext
+            self.loading.modalTransitionStyle = .crossDissolve
+            self.present(self.loading, animated: true, completion: nil)
+        }
+    }
+    
     func reloadTableView() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }

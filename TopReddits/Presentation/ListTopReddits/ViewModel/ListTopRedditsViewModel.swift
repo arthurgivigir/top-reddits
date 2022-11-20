@@ -42,7 +42,7 @@ final class DefaultListTopRedditsViewModel: ListTopRedditsViewModel {
     }
     
     func pullToRefresh() {
-        reloadTableView()
+        loadFromRefresh()
     }
     
     func infiniteScroll() {
@@ -52,6 +52,21 @@ final class DefaultListTopRedditsViewModel: ListTopRedditsViewModel {
 
 private extension DefaultListTopRedditsViewModel {
     func reloadTableView() {
+        viewControllerDelegate.startLoading()
+        
+        fetchTopReddits(reloadData: true) { [weak self] result in
+            switch result {
+            case .success(let items):
+                self?.datasource = items
+                self?.viewControllerDelegate.reloadTableView()
+                self?.viewControllerDelegate.stopLoading()
+            case .failure(let failure):
+                print(failure)
+            }
+        }
+    }
+    
+    func loadFromRefresh() {
         fetchTopReddits(reloadData: true) { [weak self] result in
             switch result {
             case .success(let items):
