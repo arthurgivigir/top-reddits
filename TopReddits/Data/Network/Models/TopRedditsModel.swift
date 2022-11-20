@@ -13,9 +13,11 @@ struct TopRedditsModel: Decodable {
 
 struct TopRedditsPageModel: Decodable {
     let quantityItems: Int
+    let after: String?
     let reddits: [RedditMessageModel]
     
     enum CodingKeys: String, CodingKey {
+        case after
         case quantityItems = "dist"
         case reddits = "children"
     }
