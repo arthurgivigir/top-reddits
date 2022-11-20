@@ -21,11 +21,15 @@ The goal is to implement a basic Top Reddits reader, with the features mentioned
 Reddit API:
 https://www.reddit.com/top.json
 
+---
+
 ### Important Informations:
 - XCode 14.1
 - iOS 16.1.1
 - MacOS Ventura 13.0
 - Architecture: MVVM
+
+---
 
 ### What I've done?
 - I've implemented all the **required features** and two **nice to have**. 
