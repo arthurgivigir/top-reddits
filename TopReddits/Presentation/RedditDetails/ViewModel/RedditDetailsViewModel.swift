@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol RedditDetailsViewModelInput {
-    func viewDidLoad()
+    func openLink()
 }
 
 protocol RedditDetailsViewModelOutput {
@@ -26,12 +26,9 @@ final class DefaultRedditDetailsViewModel: RedditDetailsViewModel {
         self.message = message
     }
     
-    func viewDidLoad() {
-        
+    func openLink() {
+        if let urlString = message.url, let url = URL(string: urlString) {
+            UIApplication.shared.open(url)
+        }
     }
-}
-
-private extension DefaultRedditDetailsViewModel {
-
-    
 }

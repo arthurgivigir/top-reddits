@@ -42,6 +42,18 @@ final class RedditDetailsViewController: UIViewController {
         return label
     }()
     
+    private lazy var urlLabel: UILabel = {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(openLink))
+        let label = UILabel()
+        label.textColor = .fontColorSeconday
+        label.font = .appFont(.subtitle, weight: .medium)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(tap)
+        return label
+    }()
+    
     private lazy var subredditLabel: UILabel = {
         let label = UILabel()
         label.textColor = .fontColorSeconday
@@ -75,7 +87,6 @@ final class RedditDetailsViewController: UIViewController {
         buildContent()
         setupContent()
         configureConstraints()
-        viewModel.viewDidLoad()
     }
 }
 private extension RedditDetailsViewController {
@@ -89,7 +100,16 @@ private extension RedditDetailsViewController {
         titleLabel.text = viewModel.message.title
         authorLabel.text = viewModel.message.author
         subredditLabel.text = viewModel.message.subredditName
-        contentImageView.load(viewModel.message.url)
+        
+        if viewModel.message.postHint == .image {
+            contentImageView.load(viewModel.message.url)
+        } else if viewModel.message.postHint == .link {
+            guard let url = viewModel.message.url else { return }
+            let textRange = NSMakeRange(0, url.count)
+            let atributtedText = NSMutableAttributedString(string: url)
+            atributtedText.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: textRange)
+            urlLabel.attributedText = atributtedText
+        }
     }
     
     func setupContent() {
@@ -101,7 +121,8 @@ private extension RedditDetailsViewController {
         contentStackView.addArrangedSubviews(
             headerStackView,
             titleLabel,
-            contentImageView
+            contentImageView,
+            urlLabel
         )
         
         contentStackView.backgroundColor = .backgroundSeconday
@@ -109,6 +130,11 @@ private extension RedditDetailsViewController {
         background.addSubview(contentStackView)
         scrollView.addSubview(background)
         view.addSubview(scrollView)
+    }
+    
+    @objc
+    func openLink(_ sender: AnyObject?) {
+        viewModel.openLink()
     }
     
     func configureConstraints() {
@@ -131,9 +157,14 @@ private extension RedditDetailsViewController {
             background.bottomAnchor.constraint(equalTo: scrollContentGuide.bottomAnchor),
             background.leadingAnchor.constraint(equalTo: scrollFrameGuide.leadingAnchor, constant: Space.medium.rawValue),
             background.trailingAnchor.constraint(equalTo: scrollFrameGuide.trailingAnchor, constant: -Space.medium.rawValue),
-            contentImageView.widthAnchor.constraint(equalTo: contentStackView.widthAnchor),
-            contentImageView.centerXAnchor.constraint(equalTo: contentStackView.centerXAnchor),
-            contentImageView.heightAnchor.constraint(equalToConstant: 300),
         ])
+        
+        if viewModel.message.postHint == .image {
+            NSLayoutConstraint.activate([
+                contentImageView.widthAnchor.constraint(equalTo: contentStackView.widthAnchor),
+                contentImageView.centerXAnchor.constraint(equalTo: contentStackView.centerXAnchor),
+                contentImageView.heightAnchor.constraint(equalToConstant: 300),
+            ])
+        }
     }
 }
