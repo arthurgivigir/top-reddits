@@ -51,3 +51,40 @@ extension UIView {
         return stackView
     }
 }
+
+extension UIViewController {
+    func buildStackView(
+        axis: NSLayoutConstraint.Axis = .vertical,
+        distribution: UIStackView.Distribution = .fill,
+        alignment: UIStackView.Alignment = .leading,
+        spacing: Space = .minimum
+    ) -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .leading
+        stackView.spacing = spacing.rawValue
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }
+    
+    func buildStackView(
+        _ views: UIView...,
+        axis: NSLayoutConstraint.Axis = .vertical,
+        distribution: UIStackView.Distribution = .fill,
+        alignment: UIStackView.Alignment = .leading,
+        spacing: Space = .minimum
+    ) -> UIStackView {
+        let stackView = buildStackView(
+            axis: axis,
+            distribution: distribution,
+            alignment: alignment,
+            spacing: spacing
+        )
+        _ = views.map {
+            stackView.addArrangedSubview($0)
+        }
+        
+        return stackView
+    }
+}

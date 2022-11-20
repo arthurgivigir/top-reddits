@@ -19,6 +19,7 @@ struct RedditMessageDataModel: Decodable {
     let author: String
     let postHint: String?
     let title: String
+    let url: String?
     let thumbnail: String?
     let thumbnailHeight: Float?
     let thumbnailWidth: Float?
@@ -28,8 +29,9 @@ struct RedditMessageDataModel: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case author
-        case postHint
+        case postHint = "post_hint"
         case title
+        case url
         case thumbnail
         case thumbnailHeight = "thumbnail_height"
         case thumbnailWidth = "thumbnail_width"
